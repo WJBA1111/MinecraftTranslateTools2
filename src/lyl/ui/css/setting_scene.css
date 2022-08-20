@@ -1,0 +1,31 @@
+#setting-window-grid-pane {/*设置场景最外层的样式*/
+    -fx-focus-color: rgb(0, 0, 0);/*焦点颜色 细线*/
+    -fx-faint-focus-color: transparent;/*焦点颜色 粗线，一般粗线设置透明度低*/
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: #ffffff;
+}
+#setting-top-scroll-pane {
+     -fx-background-insets: 0; /*布局之间去掉行横线 */
+}
+
+#setting-top-grid-pane{/*设置界面顶部滚动面板内的布局*/
+
+}
+
+#setting-top-scroll-pane #title-text {
+    -fx-font-weight: bold;
+}
+
+#setting-top-scroll-pane .text-field{
+    -fx-control-inner-background: #e2e2e2;/*内部背景颜色*/
+    -fx-border-width: 0;
+    -fx-focus-color: rgb(0, 0, 0);/*焦点颜色 细线*/
+    -fx-faint-focus-color: transparent;/*焦点颜色 粗线，一般粗线设置透明度低*/
+}
+
+#setting-bottom-grid-pane {
+
+
+}

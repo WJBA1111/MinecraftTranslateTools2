@@ -1,0 +1,5 @@
+# 忽略文件夹
+out
+
+# 忽略文件
+setting.properties
