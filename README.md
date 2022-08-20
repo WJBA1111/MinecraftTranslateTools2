@@ -1,0 +1,2 @@
+# MinecraftTransalteTools2
+机翻我的世界相关的资源文件
