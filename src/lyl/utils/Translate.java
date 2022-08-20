@@ -13,27 +13,63 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Translate {
-    private static final String sub = "$Z$";
+    private static final String sub = "$Z$";// 将正则匹配的内容替换成这个字符，并在翻译后替换回去
     private static final String regex = "%(\\d+\\$)?([-#+ 0,(\\<]*)?(\\d+)?(\\.\\d+)?([tT])?([a-zA-Z%])";
-
 
     // 创建 Pattern 对象
     private static final Pattern pattern = Pattern.compile(regex);
-
     private static final Pattern pattern1 = Pattern.compile("\n");
-
-
     // key为行，value为替换的值
-    private static HashMap<String, ArrayList<String>> hm = new LinkedHashMap<>();
+//    private static HashMap<String, ArrayList<String>> hm = new LinkedHashMap<>();
 
 
     public static void properties_mode(File file1, File file2, File file3) throws Exception {
 
-        System.out.println("进入了Translate的properties_mode方法内");
-        // 判断是全量翻译还是增量
+
+        if(TranslateData.translate_api == 0){ // 如果api是百度翻译
+
+        }else if(TranslateData.translate_api == 2) {// 如果api是腾讯翻译
+
+            if (TranslateData.translate_mode == 0){// 如果翻译模式是全量翻译
+                OrderedProperties prop =  new OrderedProperties();
+                try {
+                    prop.load(new FileReader(file1));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                LinkedList<String> key_list = new LinkedList<>(prop.stringPropertyNames());
+                LinkedList<String> value_list = new LinkedList<>();
+                for (String s : key_list) {
+                    value_list.add(prop.getProperty(s));
+                }
+
+                for (int i = 0; i < value_list.size(); i++) {
+                    String s = value_list.get(i);
+                    Matcher m = pattern.matcher(s);
+                    Matcher m1 = pattern1.matcher(s);
+
+
+
+
+                }
+
+
+
+            } else if (TranslateData.translate_mode == 2) {// 如果翻译模式是增量翻译
+
+            }
+
+
+        }
+
+
+
+
+
+
+/*        // 判断是全量翻译还是增量
         if (TranslateData.translate_mode == 0){
             OrderedProperties prop =  new OrderedProperties();
             try {
@@ -138,11 +174,11 @@ public class Translate {
 
             }else if (TranslateData.translate_mode == 2){
 
-                System.out.println("为实现的方法");
+                System.out.println("未实现的方法");
             }
 
 
-        }
+        }*/
     }
 
     public static void json_mode(File file1, File file2, File file3) {
@@ -153,6 +189,7 @@ public class Translate {
 
     }
 
+/*
     // 记录特殊符号，并在翻译后替换
     public static String record_special_symbol(String row, String str){
 
@@ -194,6 +231,7 @@ public class Translate {
         System.out.println("s1是："+s1);
         return s1;
     }
+*/
 
 
 
