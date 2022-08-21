@@ -1,6 +1,8 @@
 package lyl.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import lyl.api.TencentTranslateAPI;
 import lyl.data.TranslateData;
 import lyl.ui.main_scene_layout.RightBottomPane;
@@ -21,16 +23,13 @@ public class Translate {
     // 创建 Pattern 对象
     private static final Pattern pattern = Pattern.compile(regex);
     private static final Pattern pattern1 = Pattern.compile("\n");
-    // key为行，value为替换的值
-//    private static HashMap<String, ArrayList<String>> hm = new LinkedHashMap<>();
-
 
     public static void properties_mode(File file1, File file2, File file3) throws Exception {
 
 
-        if(TranslateData.translate_api == 0){ // 如果api是百度翻译
-
-        }else if(TranslateData.translate_api == 2) {// 如果api是腾讯翻译
+        if(TranslateData.translate_api == 0){ //如果api是百度翻译
+            TipsMessage.timing("百度翻译api 每月免费6w字符，暂时不实现",RightBottomPane.label,3000);
+        }else if(TranslateData.translate_api == 2) { //如果api是腾讯翻译
 
             if (TranslateData.translate_mode == 0){// 如果翻译模式是全量翻译
                 OrderedProperties prop =  new OrderedProperties();
@@ -133,7 +132,7 @@ public class Translate {
                 System.out.println("翻以前key的数量是"+key_list.size());
 
                 if (split.length != key_list.size()){
-                    TipsMessage.timing("翻译后的数量和翻译前数量不同，停止翻译",RightBottomPane.label);
+                    TipsMessage.timing("翻译后的数量和翻译前数量不同，停止翻译",RightBottomPane.label,3000);
                     return;
                 }
 
@@ -155,11 +154,12 @@ public class Translate {
                 FileWriter fw = new FileWriter(file1.getParent()+File.separator+"translate_zh_cn.lang");
                 prop.store(fw, null);
                 fw.close();
+                TipsMessage.timing("翻译成功",RightBottomPane.label,5000);
 
 
 
-            } else if (TranslateData.translate_mode == 2) {// 如果翻译模式是增量翻译
-
+            } else if (TranslateData.translate_mode == 2) { //如果翻译模式是增量翻译
+                TipsMessage.timing("增量模式未实现",RightBottomPane.label,3000);
             }
 
 
@@ -167,9 +167,144 @@ public class Translate {
 
     }
 
-    public static void json_mode(File file1, File file2, File file3) {
-        String s = IO.read_file_to_string(file1);
-        Object json_object = JSON.parse(s);
+    public static void json_mode(File file1, File file2, File file3) throws Exception {
+        if(TranslateData.translate_api == 0){ //如果是百度翻译api
+            TipsMessage.timing("百度翻译api 每月免费6w字符，暂时不实现",RightBottomPane.label,3000);
+        } else if (TranslateData.translate_api == 2) { //如果是腾讯翻译君api
+            if (TranslateData.translate_mode == 0 ){ //如果是全量翻译
+                String s = IO.read_file_to_string(file1);
+                HashMap<String,String> hashMap = JSON.parseObject(s, HashMap.class);
+                LinkedList<String> key_list = new LinkedList<>(hashMap.keySet());
+                LinkedList<String> value_list = new LinkedList<>(hashMap.values());
+
+                // 创建最终替换字符串的下标和多个字符串的map
+                HashMap<Integer, ArrayList<String>> final_replace_hash_map = new LinkedHashMap<>();
+
+                // 将正则匹配到的下标和字符串list 存入 上面的final_replace_hash_map
+                for (int i = 0; i < value_list.size(); i++) {
+                    HashMap<Integer, String> map = null;
+                    String value = value_list.get(i);
+                    Matcher m = pattern.matcher(value);
+                    Matcher m1 = pattern1.matcher(value);
+                    while (m.find()) {
+                        if (map == null){
+                            map = new HashMap<>(); // 存放正则匹配到的下标和字符串
+                        }
+                        int start = m.start();
+                        String group = m.group();
+                        map.put(start,group);
+                    }
+                    while (m1.find()) {
+                        if (map == null){
+                            map = new HashMap<>(); // 存放正则匹配到的下标和字符串
+                        }
+                        int start = m1.start();
+                        String group = m1.group();
+                        map.put(start,group);
+                    }
+                    if (map != null && map.size() > 0){// 如果map大小不为0，也就是说正则匹配到了，那就进行替换指定字符串，并且记录位置和顺序
+                        // 对 map的key排序，由小到大
+                        List<Integer> collect = map.keySet().stream().sorted(Comparator.comparingInt(o -> o)).collect(Collectors.toList());
+
+                        ArrayList<String> list = new ArrayList<>();// 存放排序后的字符串
+
+                        for (Integer integer : collect) {
+                            list.add(map.get(integer));
+                        }
+
+                        final_replace_hash_map.put(i,list);
+                        String first = m.replaceAll(Matcher.quoteReplacement(sub));
+                        String second = pattern1.matcher(first).replaceAll(Matcher.quoteReplacement(sub));
+                        value_list.set(i,second);
+                    }
+
+                }
+
+                // 进行翻译操作
+                LinkedList<String> after_translation_list = new LinkedList<>();
+                StringBuilder sourceText = new StringBuilder();
+                for (int i = 0; i < value_list.size(); i++) {
+                    System.out.println("-------------------第"+i+"次循环-------------------");
+                    String value = value_list.get(i);
+                    if (sourceText.length() + value.length() <= TranslateData.translate_char_length_limit && i+1 != value_list.size() ){
+                        // 拼接没有超过上限，且不是最后一个
+                        System.out.println("拼接没有超过上限，且不是最后一个");
+                        sourceText.append(value).append("\n");
+
+                    }else if (sourceText.length() + value.length() > TranslateData.translate_char_length_limit && i+1 != value_list.size()){
+                        // 拼接超过上限，且不是最后一个
+                        System.out.println("拼接超过上限，且不是最后一个");
+                        after_translation_list.add(TencentTranslateAPI.Translate(String.valueOf(sourceText),sub).getTargetText());
+                        sourceText.delete(0,sourceText.length());
+                        sourceText.append(value).append("\n");
+                        Thread.sleep(TranslateData.sleep_time);
+
+                    }else if(sourceText.length() + value.length() > TranslateData.translate_char_length_limit && i+1 == value_list.size()){
+                        // 超过上限，且index是最后一个
+                        System.out.println("拼接超过上限，且是最后一个");
+                        after_translation_list.add(TencentTranslateAPI.Translate(String.valueOf(sourceText),sub).getTargetText());
+                        sourceText.delete(0,sourceText.length());
+                        sourceText.append(value);
+                        Thread.sleep(TranslateData.sleep_time);
+                        after_translation_list.add(TencentTranslateAPI.Translate(String.valueOf(sourceText),sub).getTargetText());
+                    }else if(sourceText.length() + value.length()  <= TranslateData.translate_char_length_limit && i+1 == value_list.size() ){
+                        // 没有超过上限，且index是最后一个
+                        System.out.println("没有超过上限，且index是最后一个");
+                        sourceText.append(value);
+                        after_translation_list.add(TencentTranslateAPI.Translate(String.valueOf(sourceText),sub).getTargetText());
+                    }
+
+
+
+
+                }
+
+                // 得到翻译后文本
+                String translatedText = after_translation_list.stream().map(String::valueOf).collect(Collectors.joining());
+                String[] split = translatedText.split("\n");
+                System.out.println("翻译后的value数量是："+split.length);
+                System.out.println("翻以前key的数量是"+key_list.size());
+
+                if (split.length != key_list.size()){
+                    TipsMessage.timing("翻译后的数量和翻译前数量不同，停止翻译",RightBottomPane.label,3000);
+                    return;
+                }
+
+                // 对翻译后带有不翻译字符进行替换
+                for (int i1 = 0; i1 < split.length; i1++) {
+                    String key = key_list.get(i1);
+                    String value = split[i1];
+
+                    if(value.contains(sub)){
+                        ArrayList<String> strings = final_replace_hash_map.get(i1);
+                        for (String string : strings) {
+                            value = value.replaceFirst(Matcher.quoteReplacement(sub), string);
+                        }
+                    }
+                    hashMap.replace(key,value);
+                }
+
+                // 保存翻译后的properties格式的文本
+                FileWriter fw = new FileWriter(file1.getParent()+File.separator+"translate_zh_cn.json");
+                String s1 = JSON.toJSONString(hashMap, SerializerFeature.PrettyFormat); // 将map变成json字符串，并且格式化
+                fw.write(s1);
+                fw.close();
+                TipsMessage.timing("翻译成功",RightBottomPane.label,5000);
+
+
+            } else if (TranslateData.translate_mode == 2) { //如果是增量翻译
+                TipsMessage.timing("增量模式未实现",RightBottomPane.label,3000);
+            }
+        }
+
+
+
+
+
+
+
+
+
     }
     public static void regex_mode(File file1, File file2, File file3) {
 

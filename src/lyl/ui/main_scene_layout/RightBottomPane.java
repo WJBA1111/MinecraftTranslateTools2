@@ -57,7 +57,7 @@ public class RightBottomPane {
             if(TranslateData.translate_mode == 0){
                 file1 = new File(RightTopPane.input_path.getText());
                 if (!file1.exists()){
-                    TipsMessage.timing("文件不存在", label);//定时方法
+                    TipsMessage.timing("文件不存在",label,3000);//定时方法
                     return;
                 }else {
                     label.setText("");
@@ -69,7 +69,7 @@ public class RightBottomPane {
                 file3 = new File(RightTopPane.input_no_translate_old_path.getText());
 
                 if (!file1.exists() || !file2.exists()||!file3.exists()){
-                    TipsMessage.timing("文件不存在", label);//定时方法
+                    TipsMessage.timing("文件不存在", label,3000);//定时方法
                     return;
                 }else {
                     label.setText("");
@@ -85,7 +85,11 @@ public class RightBottomPane {
                 }
             }else if (TranslateData.translate_file_format == 2){
                 System.out.println("选择了Json模式");
-                Translate.json_mode(file1,file2,file3);
+                try {
+                    Translate.json_mode(file1,file2,file3);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }else if (TranslateData.translate_file_format == 4){
                 Translate.regex_mode(file1,file2,file3);
                 System.out.println("选择了自定义正则表达式模式");

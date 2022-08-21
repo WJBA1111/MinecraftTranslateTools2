@@ -12,7 +12,7 @@ public class TipsMessage {
     private static boolean flag = false;// 判断定时器是否在运行
 
     // 对指定的label设置3秒的消息文本
-    public static void timing(String message, Label label){
+    public static void timing(String message, Label label, Integer time){
 
         if (!flag){
             TimerTask timerTask = new TimerTask() {
@@ -32,14 +32,14 @@ public class TipsMessage {
             label.setText(message);
             System.out.println("添加了定时器");
             flag = true;
-            timer.schedule(timerTask,3000);
+            timer.schedule(timerTask,time);
             return;
         }
         timer.cancel();
         System.out.println("定时器已取消");
         timer = new Timer();
         flag = false;
-        timing(message, label);
+        timing(message,label,time);
     }
 
 
