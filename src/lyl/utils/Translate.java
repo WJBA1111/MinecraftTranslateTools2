@@ -1,6 +1,7 @@
 package lyl.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import lyl.api.TencentTranslateAPI;
 import lyl.data.TranslateData;
@@ -38,17 +39,17 @@ public class Translate {
             List<String> value_list = key_list.stream().map(prop::getProperty).collect(Collectors.toList());
 
             // 创建最终替换字符串的下标和多个字符串的map
-            HashMap<Integer, ArrayList<String>> final_replace_hash_map = new LinkedHashMap<>();
+            LinkedHashMap<Integer, ArrayList<String>> final_replace_hash_map = new LinkedHashMap<>();
 
             // 将正则匹配到的下标和字符串list 存入 上面的final_replace_hash_map
             for (int i = 0; i < value_list.size(); i++) {
-                HashMap<Integer, String> map = null;
+                LinkedHashMap<Integer, String> map = null;
                 String value = value_list.get(i);
                 Matcher m = pattern.matcher(value);
                 Matcher m1 = pattern1.matcher(value);
                 while (m.find()) {
                     if (map == null){
-                        map = new HashMap<>(); // 存放正则匹配到的下标和字符串
+                        map = new LinkedHashMap<>(); // 存放正则匹配到的下标和字符串
                     }
                     int start = m.start();
                     String group = m.group();
@@ -56,7 +57,7 @@ public class Translate {
                 }
                 while (m1.find()) {
                     if (map == null){
-                        map = new HashMap<>(); // 存放正则匹配到的下标和字符串
+                        map = new LinkedHashMap<>(); // 存放正则匹配到的下标和字符串
                     }
                     int start = m1.start();
                     String group = m1.group();
@@ -150,7 +151,7 @@ public class Translate {
                 if(value.contains(sub)){
                     ArrayList<String> strings = final_replace_hash_map.get(i1);
                     for (String string : strings) {
-                        value = value.replaceFirst(Matcher.quoteReplacement(sub), string);
+                        value = value.replaceFirst(Matcher.quoteReplacement(sub), Matcher.quoteReplacement(string));
                     }
                 }
                 prop.replace(key, value);
@@ -180,23 +181,22 @@ public class Translate {
 
         if (TranslateData.translate_mode == 0 ){ //如果是全量翻译
             String s = IO.read_file_to_string(file1);
-            HashMap<String,String> hashMap = JSON.parseObject(s, HashMap.class);
+            LinkedHashMap<String,String> hashMap = JSON.parseObject(s, LinkedHashMap.class, Feature.OrderedField);
             LinkedList<String> key_list = new LinkedList<>(hashMap.keySet());
             LinkedList<String> value_list = new LinkedList<>(hashMap.values());
 
-
             // 创建最终替换字符串的下标和多个字符串的map
-            HashMap<Integer, ArrayList<String>> final_replace_hash_map = new LinkedHashMap<>();
+            LinkedHashMap<Integer, ArrayList<String>> final_replace_hash_map = new LinkedHashMap<>();
 
             // 将正则匹配到的下标和字符串list 存入 上面的final_replace_hash_map
             for (int i = 0; i < value_list.size(); i++) {
-                HashMap<Integer, String> map = null;
+                LinkedHashMap<Integer, String> map = null;
                 String value = value_list.get(i);
                 Matcher m = pattern.matcher(value);
                 Matcher m1 = pattern1.matcher(value);
                 while (m.find()) {
                     if (map == null){
-                        map = new HashMap<>(); // 存放正则匹配到的下标和字符串
+                        map = new LinkedHashMap<>(); // 存放正则匹配到的下标和字符串
                     }
                     int start = m.start();
                     String group = m.group();
@@ -204,7 +204,7 @@ public class Translate {
                 }
                 while (m1.find()) {
                     if (map == null){
-                        map = new HashMap<>(); // 存放正则匹配到的下标和字符串
+                        map = new LinkedHashMap<>(); // 存放正则匹配到的下标和字符串
                     }
                     int start = m1.start();
                     String group = m1.group();
@@ -268,7 +268,6 @@ public class Translate {
                 }
             }
 
-
             // 得到翻译后文本
             String translatedText = after_translation_list.stream().map(String::valueOf).collect(Collectors.joining());
             String[] split = translatedText.split("\n");
@@ -285,7 +284,7 @@ public class Translate {
                 if(value.contains(sub)){
                     ArrayList<String> strings = final_replace_hash_map.get(i1);
                     for (String string : strings) {
-                        value = value.replaceFirst(Matcher.quoteReplacement(sub), string);
+                        value = value.replaceFirst(Matcher.quoteReplacement(sub), Matcher.quoteReplacement(string));
                     }
                 }
                 hashMap.replace(key,value);
