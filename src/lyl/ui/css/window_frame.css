@@ -1,0 +1,31 @@
+#public-top-grid-pane {
+    -fx-background-color: #5c6bc0;
+}
+
+#public-top-title-text {
+    -fx-fill: white;/*设置文本颜色*/
+    -fx-font-weight: bold;/*粗体*/
+    -fx-opacity: 1; /*设置透明度*/
+}
+
+/*最小化按钮i*/
+#public-top-mini-label {
+
+}
+/*退出按钮*/
+#public-top-exit-label {
+
+}
+
+
+
+#window-frame-grid-pane {
+    -fx-focus-color: rgb(0, 0, 0);/*焦点颜色 细线*/
+    -fx-faint-focus-color: transparent;/*焦点颜色 粗线，一般粗线设置透明度低*/
+    -fx-background-color: #269,
+    linear-gradient(from 0px 0px to 20px 0px, repeat, rgba(255, 255, 255, 0.3) 0%, transparent 5%, transparent 95%, rgba(255, 255, 255, 0.3) 100%),
+    linear-gradient(from 0px 0px to 0px 20px, repeat, rgba(255, 255, 255, 0.3) 0%, transparent 5%, transparent 95%, rgba(255, 255, 255, 0.3) 100%),
+    linear-gradient(from 0px 0px to 100px 0px, repeat, white 0%, transparent 1%, transparent 99%, white 100%),
+    linear-gradient(from 0px 0px to 0px 100px, repeat, white 0%, transparent 1%, transparent 99%, white 100%);
+}
+

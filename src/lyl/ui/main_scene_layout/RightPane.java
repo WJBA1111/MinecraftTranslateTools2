@@ -7,6 +7,6 @@ import lyl.ui.MyStyle;
 public class RightPane {
     public static Pane getPane(){
 
-        return new MyStyle.AllGridPane(MainScene.gridPaneAll.getMinHeight(), MainScene.gridPaneAll.getMinWidth() * 0.8);
+        return new MyStyle.AllGridPane(MainScene.gridPaneContent.getMinHeight(), MainScene.gridPaneContent.getMinWidth() * 0.8);
     }
 }

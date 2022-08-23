@@ -16,13 +16,13 @@ import lyl.ui.MyStyle;
 import java.io.File;
 
 import static lyl.data.TranslateData.element_height;
-import static lyl.ui.MainScene.gridPaneAll;
+import static lyl.ui.MainScene.gridPaneContent;
 import static lyl.ui.MainScene.gridPane_right;
 
 
 public class RightTopPane {
 
-    private static final GridPane right_top_pane = new MyStyle.AllGridPane(gridPaneAll.getMinHeight() * 0.6, gridPane_right.getMinWidth());
+    private static final GridPane right_top_pane = new MyStyle.AllGridPane(gridPaneContent.getMinHeight() * 0.6, gridPane_right.getMinWidth());
 
     public static final TextField input_path = new MyStyle.TextFieldStyle1(gridPane_right.getMinHeight()* element_height, right_top_pane.getMinWidth()*0.4);
     private static Text  text_regex;

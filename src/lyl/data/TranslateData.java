@@ -18,7 +18,7 @@ public class TranslateData {
     public static String secret_key; // 腾讯云的接口key
     public static Properties prop = new Properties();// 读取配置文件的对象
 
-    public static Stage main_stage; // 主窗口对象
+    public static Stage only_stage; // 主窗口对象 ，只被new一次 相当于final
     public static Scene main_scene;// 主页面场景对象
     public static Scene setting_scene;// 设置页面场景对象
     public static double window_height;// 窗口高度

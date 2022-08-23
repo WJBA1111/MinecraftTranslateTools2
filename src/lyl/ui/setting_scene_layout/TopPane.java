@@ -12,7 +12,7 @@ import lyl.ui.MyStyle;
 import lyl.ui.SettingScene;
 
 import static lyl.data.TranslateData.element_height;
-import static lyl.ui.SettingScene.gridPaneAll;
+import static lyl.ui.SettingScene.gridPaneContent;
 
 public class TopPane {
     public static TextField text_field_appid;
@@ -33,8 +33,8 @@ public class TopPane {
         top_pane.setAlignment(Pos.TOP_CENTER);
         top_pane.setHgap(5);
         top_pane.setVgap(5);
-        top_pane.setMinWidth(gridPaneAll.getMinWidth());
-        top_pane.setMinHeight(gridPaneAll.getMinHeight()*2);
+        top_pane.setMinWidth(gridPaneContent.getMinWidth());
+        top_pane.setMinHeight(gridPaneContent.getMinHeight()*2);
 
         Text text_user = new MyStyle.TitleText("账号：");
         Text text_appid = new MyStyle.AllText("百度翻译id");
@@ -43,7 +43,7 @@ public class TopPane {
         Text text_secret_key = new MyStyle.AllText("腾讯云key");
 
         Text text_api = new MyStyle.AllText("翻译API：");
-        input_choose = new MyStyle.ChoiceBoxStyle1<>(gridPaneAll.getMinHeight()* element_height,gridPaneAll.getMinWidth()*0.4);
+        input_choose = new MyStyle.ChoiceBoxStyle1<>(gridPaneContent.getMinHeight()* element_height,gridPaneContent.getMinWidth()*0.4);
 
         input_choose.setItems(FXCollections.observableArrayList(
                 "百度翻译api",
@@ -62,16 +62,16 @@ public class TopPane {
         Text text_window_multiplying = new MyStyle.AllText("窗口大小倍率");
         Text text_font_size = new MyStyle.AllText("字体大小");
 
-        text_field_appid = new MyStyle.TextFieldStyle1(gridPaneAll.getMinHeight()* element_height, gridPaneAll.getMinWidth()*0.4);
-        text_field_key = new MyStyle.TextFieldStyle1(gridPaneAll.getMinHeight()* element_height, gridPaneAll.getMinWidth()*0.4);
+        text_field_appid = new MyStyle.TextFieldStyle1(gridPaneContent.getMinHeight()* element_height, gridPaneContent.getMinWidth()*0.4);
+        text_field_key = new MyStyle.TextFieldStyle1(gridPaneContent.getMinHeight()* element_height, gridPaneContent.getMinWidth()*0.4);
 
-        text_field_secret_id = new MyStyle.TextFieldStyle1(gridPaneAll.getMinHeight()* element_height, gridPaneAll.getMinWidth()*0.4);
-        text_field_secret_key = new MyStyle.TextFieldStyle1(gridPaneAll.getMinHeight()* element_height, gridPaneAll.getMinWidth()*0.4);
+        text_field_secret_id = new MyStyle.TextFieldStyle1(gridPaneContent.getMinHeight()* element_height, gridPaneContent.getMinWidth()*0.4);
+        text_field_secret_key = new MyStyle.TextFieldStyle1(gridPaneContent.getMinHeight()* element_height, gridPaneContent.getMinWidth()*0.4);
 
-        text_field_sleep_time = new MyStyle.TextFieldStyle1(gridPaneAll.getMinHeight()* element_height, gridPaneAll.getMinWidth()*0.4);
-        text_field_element_height = new MyStyle.TextFieldStyle1(gridPaneAll.getMinHeight()* element_height, gridPaneAll.getMinWidth()*0.4);
-        text_field_window_multiplying = new MyStyle.TextFieldStyle1(gridPaneAll.getMinHeight()* element_height, gridPaneAll.getMinWidth()*0.4);
-        text_field_font_size = new MyStyle.TextFieldStyle1(gridPaneAll.getMinHeight()* element_height, gridPaneAll.getMinWidth()*0.4);
+        text_field_sleep_time = new MyStyle.TextFieldStyle1(gridPaneContent.getMinHeight()* element_height, gridPaneContent.getMinWidth()*0.4);
+        text_field_element_height = new MyStyle.TextFieldStyle1(gridPaneContent.getMinHeight()* element_height, gridPaneContent.getMinWidth()*0.4);
+        text_field_window_multiplying = new MyStyle.TextFieldStyle1(gridPaneContent.getMinHeight()* element_height, gridPaneContent.getMinWidth()*0.4);
+        text_field_font_size = new MyStyle.TextFieldStyle1(gridPaneContent.getMinHeight()* element_height, gridPaneContent.getMinWidth()*0.4);
 
 
 

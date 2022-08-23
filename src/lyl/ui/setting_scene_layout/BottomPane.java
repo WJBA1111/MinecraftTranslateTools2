@@ -10,16 +10,16 @@ import lyl.data.TranslateData;
 import lyl.ui.MyStyle;
 
 import static lyl.data.TranslateData.element_height;
-import static lyl.ui.SettingScene.gridPaneAll;
+import static lyl.ui.SettingScene.gridPaneContent;
 
 public class BottomPane {
     public static Pane getPane(){
-        GridPane bottom_pane = new MyStyle.AllGridPane(gridPaneAll.getMinHeight()*0.15, gridPaneAll.getMinWidth());
-        Button btn_back = new MyStyle.ButtonStyle1("返回",gridPaneAll.getMinHeight()*element_height,gridPaneAll.getMinWidth()*0.27);
-        Button btn_save = new MyStyle.ButtonStyle1("保存",gridPaneAll.getMinHeight()*element_height,gridPaneAll.getMinWidth()*0.27);
+        GridPane bottom_pane = new MyStyle.AllGridPane(gridPaneContent.getMinHeight()*0.15, gridPaneContent.getMinWidth());
+        Button btn_back = new MyStyle.ButtonStyle1("返回",gridPaneContent.getMinHeight()*element_height,gridPaneContent.getMinWidth()*0.27);
+        Button btn_save = new MyStyle.ButtonStyle1("保存",gridPaneContent.getMinHeight()*element_height,gridPaneContent.getMinWidth()*0.27);
         btn_back.setOnMouseClicked(event -> {
             if (event.getButton().toString().equals("PRIMARY") ){ //左键PRIMARY，右键SECONDARY
-                TranslateData.main_stage.setScene(TranslateData.main_scene);
+                TranslateData.only_stage.setScene(TranslateData.main_scene);
                 System.out.println("你点击了左键");
             } else {
                 System.out.println("点击了其他键");
@@ -48,7 +48,7 @@ public class BottomPane {
                         window_multiplying.equals(String.valueOf(TranslateData.window_multiplying)) &&
                         font_size.equals(String.valueOf(TranslateData.font_size))){
                     System.out.println("配置文件没有发生改变，没有进行保存操作");
-                    TranslateData.main_stage.setScene(TranslateData.main_scene);// 回到主页
+                    TranslateData.only_stage.setScene(TranslateData.main_scene);// 回到主页
                     return;
                 }
 
@@ -65,14 +65,14 @@ public class BottomPane {
                     TranslateData.font_size = Integer.parseInt(font_size);
                     LoadData.save_config_file();// 保存为配置文件
                     System.out.println("保存成功");
-                    TranslateData.main_stage.setScene(TranslateData.main_scene);// 回到主页
+                    TranslateData.only_stage.setScene(TranslateData.main_scene);// 回到主页
                 }else{
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setHeight(300d);
                     alert.setTitle("消息");
                     alert.setContentText("格式不对，ui相关必须为纯数字");
                     alert.setHeaderText("保存失败");
-                    alert.initOwner(TranslateData.main_stage);
+                    alert.initOwner(TranslateData.only_stage);
                     alert.showAndWait();
                 }
                 System.out.println("你点击了左键，开始保存配置文件，并设置参数");
