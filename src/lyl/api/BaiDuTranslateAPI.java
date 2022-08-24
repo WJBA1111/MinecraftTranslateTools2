@@ -7,11 +7,12 @@ import lyl.utils.MD5;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class BaiDuTranslateAPI {
     // 翻译一个字符串
-    public static BaiDuTransResult.ResultString translate(String q){
+    public static String translate(String q){
         String url= "http://api.fanyi.baidu.com/api/trans/vip/translate";  // https://fanyi-api.baidu.com/api/trans/vip/translate
         String salt = System.currentTimeMillis()-5L+""; // 随机码
         // 拼接字符串，生成md5密钥
@@ -38,22 +39,27 @@ public class BaiDuTranslateAPI {
 
         JSONObject jsonObject = JSONObject.parseObject(s);
         BaiDuTransResult baiDuTransResult = JSONObject.toJavaObject(jsonObject, BaiDuTransResult.class);
-
-        return baiDuTransResult.getTrans_result();
+        BaiDuTransResult.ResultString[] trans_result = baiDuTransResult.getTrans_result();
+        StringBuilder sb =new StringBuilder();
+        for (BaiDuTransResult.ResultString resultString : trans_result) {
+            sb.append(resultString.getDst()).append("\n");
+        }
+        return sb.toString();
 
 
 
     }
     public static class BaiDuTransResult {
-        private ResultString trans_result;
+
+        private ResultString[] trans_result;
         private String from;
         private String to;
 
-        public ResultString getTrans_result() {
+        public ResultString[] getTrans_result() {
             return trans_result;
         }
 
-        public void setTrans_result(ResultString trans_result) {
+        public void setTrans_result(ResultString[] trans_result) {
             this.trans_result = trans_result;
         }
 
@@ -76,7 +82,7 @@ public class BaiDuTranslateAPI {
         @Override
         public String toString() {
             return "BaiDuTransResult{" +
-                    "trans_result=" + trans_result +
+                    "trans_result=" + Arrays.toString(trans_result) +
                     ", from='" + from + '\'' +
                     ", to='" + to + '\'' +
                     '}';
@@ -113,6 +119,7 @@ public class BaiDuTranslateAPI {
                         '}';
             }
         }
+
     }
 
 }

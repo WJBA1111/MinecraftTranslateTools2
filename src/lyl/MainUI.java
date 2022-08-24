@@ -9,10 +9,13 @@ import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lyl.api.TencentTranslateAPI;
 import lyl.data.LoadData;
 import lyl.data.TranslateData;
 import lyl.ui.MainScene;
 import lyl.ui.WindowScene;
+
+import java.util.Arrays;
 
 public class MainUI extends Application {
 

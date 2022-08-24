@@ -22,11 +22,6 @@ public class HttpRequest {
             urlStr = url;
         }
 
-        System.out.println("完整地址是" + urlStr);
-
-
-
-
         try {
 
             HttpURLConnection httpURIConnection = (HttpURLConnection)new URL(urlStr).openConnection();
@@ -64,10 +59,6 @@ public class HttpRequest {
             httpURIConnection.setRequestMethod("POST");
             httpURIConnection.setDoInput(true);
             httpURIConnection.setDoOutput(true);
-
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }

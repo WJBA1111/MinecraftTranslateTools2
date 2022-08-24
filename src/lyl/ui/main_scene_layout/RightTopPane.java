@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 import lyl.data.TranslateData;
 import lyl.ui.MainScene;
 import lyl.ui.MyStyle;
+import lyl.utils.State;
 
 import java.io.File;
 
@@ -225,8 +226,7 @@ public class RightTopPane {
         right_top_pane.add(text_file_path,0,4);
         right_top_pane.add(input_path,1,4);
         right_top_pane.add(btn_choose_file,2,4);
-
-
+        State.set_mouse_arrow_as_hand(choose_file_number,choose_file_format,choose_translate_mode,btn_choose_file);
         return right_top_pane;
     }
 }

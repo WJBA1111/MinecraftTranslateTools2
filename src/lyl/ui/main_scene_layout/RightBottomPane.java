@@ -11,6 +11,7 @@ import java.io.File;
 
 import lyl.data.TranslateData;
 import lyl.ui.MyStyle;
+import lyl.utils.State;
 import lyl.utils.TipsMessage;
 import lyl.utils.Translate;
 
@@ -120,7 +121,7 @@ public class RightBottomPane {
         right_bottom_pane.add(input_logs,0,0);
         right_bottom_pane.add(btn_run,0,1);
         right_bottom_pane.add(label,0,1);
-
+        State.set_mouse_arrow_as_hand(btn_run);
         return right_bottom_pane;
     }
 
