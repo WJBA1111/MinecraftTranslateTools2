@@ -2,7 +2,6 @@ package lyl.ui;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import lyl.ui.public_scene_layout.FramePane;
 import lyl.ui.public_scene_layout.TopBarPane;
 

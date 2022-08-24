@@ -50,50 +50,71 @@ public class RightBottomPane {
 
 
         btn_run.setOnAction(event->{
-            // 读取路径
             File file1 = null;
             File file2 = null;
             File file3 = null;
-            if(TranslateData.translate_mode == 0){
+            /*判断文件是否为空或必要参数不正确或不存在*/
+            if (RightTopPane.choose_file_number.getSelectionModel().getSelectedIndex() == 0){
+                if (TranslateData.translate_mode == 0){
+                    file1 = new File(RightTopPane.input_path.getText());
+                    if (!file1.exists()){
+                            TipsMessage.timing("文件不存在",label,3000);//定时方法
+                        return;
+                    }else {
+                        label.setText("");
+                    }
+                } else if (TranslateData.translate_mode == 2) {
+                    file1 = new File(RightTopPane.input_path.getText());
+                    file2 = new File(RightTopPane.input_already_translate_old_path.getText());
+                    file3 = new File(RightTopPane.input_no_translate_old_path.getText());
+
+                    if (!file1.exists() || !file2.exists()||!file3.exists()){
+                        TipsMessage.timing("至少有一个文件不存在", label,3000);//定时方法
+                        return;
+                    }else {
+                        label.setText("");
+                    }
+                }
+            } else if (RightTopPane.choose_file_number.getSelectionModel().getSelectedIndex() == 2) {
                 file1 = new File(RightTopPane.input_path.getText());
                 if (!file1.exists()){
-                    TipsMessage.timing("文件不存在",label,3000);//定时方法
+                    TipsMessage.timing("目录不存在",label,3000);//定时方法
                     return;
                 }else {
                     label.setText("");
                 }
-
-            }else if(TranslateData.translate_mode == 2){
-                file1 = new File(RightTopPane.input_path.getText());
-                file2 = new File(RightTopPane.input_already_translate_old_path.getText());
-                file3 = new File(RightTopPane.input_no_translate_old_path.getText());
-
-                if (!file1.exists() || !file2.exists()||!file3.exists()){
-                    TipsMessage.timing("文件不存在", label,3000);//定时方法
+                if (RightTopPane.input_file_extension.getText().equals("")){
+                    TipsMessage.timing("文件后缀为空",label,3000);//定时方法
                     return;
-                }else {
-                    label.setText("");
                 }
             }
 
-            if(TranslateData.translate_file_format == 0){
-                System.out.println("选择了Properties模式");
-                try {
-                    Translate.properties_mode(file1,file2,file3);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+            /*选择对应的翻译模式*/
+            if (RightTopPane.choose_file_number.getSelectionModel().getSelectedIndex() == 0){
+                System.out.println("单文件翻译");
+                if(TranslateData.translate_file_format == 0){
+                    System.out.println("选择了Properties模式");
+                    try {
+                        Translate.properties_mode(file1,file2,file3);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }else if (TranslateData.translate_file_format == 2){
+                    System.out.println("选择了Json模式");
+                    try {
+                        Translate.json_mode(file1,file2,file3);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }else if (TranslateData.translate_file_format == 4){
+                    Translate.regex_mode(file1,file2,file3);
+                    System.out.println("选择了自定义正则表达式模式");
                 }
-            }else if (TranslateData.translate_file_format == 2){
-                System.out.println("选择了Json模式");
-                try {
-                    Translate.json_mode(file1,file2,file3);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }else if (TranslateData.translate_file_format == 4){
-                Translate.regex_mode(file1,file2,file3);
-                System.out.println("选择了自定义正则表达式模式");
+            } else if (RightTopPane.choose_file_number.getSelectionModel().getSelectedIndex() == 2) {
+                System.out.println("目录翻译，匹配后缀为:"+RightTopPane.input_file_extension.getText());
             }
+
+
         });
 
         right_bottom_pane.add(input_logs,0,0);

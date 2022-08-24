@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import lyl.data.TranslateData;
 import lyl.event.WindowMove;
 import lyl.ui.MyStyle;
+import lyl.utils.State;
 
 public class TopBarPane {
 
@@ -42,6 +43,7 @@ public class TopBarPane {
         });
 
         Label exit_label = new Label();
+
         exit_label.setBackground(new Background(new BackgroundImage(new Image("img/exit.png"),null,null,null,new BackgroundSize(20,20,true,true,true,true))));
         exit_label.setMinHeight(top_bar_pane.getMinHeight()*0.95);
         exit_label.setMinWidth(exit_label.getMinHeight());
@@ -74,7 +76,7 @@ public class TopBarPane {
         top_bar_pane.setOnMousePressed(windowMove);
         top_bar_pane.setOnMouseDragged(windowMove);
 
-
+        State.set_mouse_arrow_as_hand(mini_label,exit_label);
         return top_bar_pane;
     }
 

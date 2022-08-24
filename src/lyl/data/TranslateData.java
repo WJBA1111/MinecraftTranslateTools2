@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import java.util.Properties;
 
 public class TranslateData {
-
+    public static int translate_text_file_number = 0; // 可选参数0，2   0：单个文件   2：目录下的指定后缀文件
     public static int translate_api = 2; //  可选参数0，2  百度翻译 0  腾讯云翻译2   默认腾讯云翻译，因为腾讯云六百万字符，百度就几万
     public static int translate_file_format = 0;// 可选参数0，2，4  对应：properties、json、自定义正则
     public static int translate_mode = 0; // 可选参数 0 ， 2 对应全量翻译和增量
@@ -31,7 +31,6 @@ public class TranslateData {
 //    public static final String properties_regex = "(?<==).*\\S";// 匹配lang文件格式，aaa=bbb
 //    public static final String json_regex = "(?<=: {0,50}\")[\\w\\W]*?(?=\")";// 匹配json文件格式 "":"" 或 "" : ""
     public static String custom_regex = "";// 自定义正则
-
     public static int font_size = 18;
     public static double element_height = 0.08;//统一控件高度
 }
